@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday My Love! ❤️</title>
+  <style>
+    :root {
+      --bg-color: #FFFDF9;
+      --card-bg: #FAF5EC;
+      --accent-red: #EB5B45;
+      --accent-pink: #FFD5D5;
+      --text-dark: #4A3E3D;
+      --shadow-color: rgba(235, 91, 69, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .screen {
+      display: none;
+      width: 100%;
+      max-width: 420px;
+      background: var(--card-bg);
+      border-radius: 28px;
+      padding: 30px 24px;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid #F0E6D8;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Floating animation for moving GIF effect */
+    .gif-container {
+      margin: 15px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .gif-container img {
+      width: 200px;
+      height: auto;
+      border-radius: 16px;
+      animation: floatAnimation 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatAnimation {
+      0% { transform: translateY(0px) scale(1); }
+      100% { transform: translateY(-8px) scale(1.02); }
+    }
+
+    /* Passcode Screen */
+    .passcode-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent-red);
+      margin-bottom: 15px;
+    }
+
+    .dots-wrapper {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 25px;
+    }
+
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #E2D7C7;
+      transition: background-color 0.2s ease;
+    }
+
+    .dot.filled {
+      background-color: var(--accent-red);
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 260px;
+    }
+
+    .key-btn {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: none;
+      background: #FFF;
+      color: var(--text-dark);
+      font-size: 20px;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .key-btn:active {
+      background: var(--accent-pink);
+    }
+
+    /* Interactive Buttons */
+    .question-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent-red);
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 14px 20px;
+      border-radius: 50px;
+      border: none;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px var(--shadow-color);
+      transition: transform 0.1s ease;
+    }
+
+    .action-btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-yes {
+      background-color: var(--accent-red);
+      color: #FFF;
+    }
+
+    .btn-no {
+      background-color: #FFF;
+      color: var(--accent-red);
+      border: 2px solid var(--accent-red);
+    }
+
+    /* Heart Gift Boxes */
+    .section-subtitle {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent-red);
+      margin: 20px 0 10px;
+    }
+
+    .gifts-container {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      margin: 10px 0 20px;
+    }
+
+    .heart-box {
+      width: 60px;
+      height: 60px;
+      background-color: var(--accent-red);
+      border-radius: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 26px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px var(--shadow-color);
+      transition: transform 0.2s ease;
+    }
+
+    .heart-box:hover {
+      transform: scale(1.1);
+    }
+
+    /* Modal Popup */
+    .modal {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      border-radius: 28px;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 10;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 24px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+
+    .modal-content p {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--accent-red);
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen 1: Passcode Lock -->
+  <div class="screen active" id="screen-passcode">
+    <div class="passcode-title">Enter Passcode ❤️</div>
+    <div class="gif-container">
+      <img src="bubu.gif" alt="Bubu and Dudu Sticker" />
+    </div>
+    <div class="dots-wrapper">
+      <div class="dot" id="dot1"></div>
+      <div class="dot" id="dot2"></div>
+      <div class="dot" id="dot3"></div>
+      <div class="dot" id="dot4"></div>
+    </div>
+    <div class="keypad">
+      <button class="key-btn" onclick="pressKey('1')">1</button>
+      <button class="key-btn" onclick="pressKey('2')">2</button>
+      <button class="key-btn" onclick="pressKey('3')">3</button>
+      <button class="key-btn" onclick="pressKey('4')">4</button>
+      <button class="key-btn" onclick="pressKey('5')">5</button>
+      <button class="key-btn" onclick="pressKey('6')">6</button>
+      <button class="key-btn" onclick="pressKey('7')">7</button>
+      <button class="key-btn" onclick="pressKey('8')">8</button>
+      <button class="key-btn" onclick="pressKey('9')">9</button>
+      <button class="key-btn" onclick="clearPasscode()">C</button>
+      <button class="key-btn" onclick="pressKey('0')">0</button>
+      <button class="key-btn" onclick="deleteKey()">←</button>
+    </div>
+  </div>
+
+  <!-- Screen 2: Question Screen -->
+  <div class="screen" id="screen-question">
+    <div class="question-title">I made something special for u ❤️<br>do u wanna see it?</div>
+    <div class="gif-container">
+      <img src="bubu.gif" alt="Bubu and Dudu Sticker" />
+    </div>
+    <div class="btn-group">
+      <button class="action-btn btn-yes" onclick="showScreen('screen-main')">YES</button>
+      <button class="action-btn btn-no" onclick="showScreen('screen-no')">NO</button>
+    </div>
+  </div>
+
+  <!-- Screen 3: "NO" Reaction -->
+  <div class="screen" id="screen-no">
+    <div class="question-title">Why did u click NO?! 🥺</div>
+    <div class="gif-container">
+      <img src="bubu.gif" alt="Bubu and Dudu Sticker" />
+    </div>
+    <button class="action-btn btn-yes" onclick="showScreen('screen-question')" style="margin-top: 20px;">Try Again ❤️</button>
+  </div>
+
+  <!-- Screen 4: Main Birthday Surprise -->
+  <div class="screen" id="screen-main">
+    <div class="question-title">Happy Birthday My Love! 🎉✨</div>
+    <div class="gif-container">
+      <img src="bubu.gif" alt="Bubu and Dudu Sticker" />
+    </div>
+    
+    <p style="font-size: 15px; line-height: 1.5; color: #665; margin-bottom: 15px;">
+      You mean the absolute world to me. Thank you for being the sweetest, cutest, and best part of my life! I love you so much! ❤️
+    </p>
+
+    <div class="section-subtitle">TAP A HEART GIFT 🎁</div>
+    <div class="gifts-container">
+      <div class="heart-box" onclick="openGift('Unlimited Hugs & Kisses Coupon! 🫂❤️')">🎁</div>
+      <div class="heart-box" onclick="openGift('Romantic Dinner Date Voucher! 🍕🍷')">🎁</div>
+      <div class="heart-box" onclick="openGift('Anything You Wish For Voucher! ✨')">🎁</div>
+    </div>
+  </div>
+
+  <!-- Modal Popup -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <p id="modal-text"></p>
+      <button class="action-btn btn-yes" onclick="closeModal()">Claim Gift ❤️</button>
+    </div>
+  </div>
+
+  <script>
+    const correctCode = '4699';
+    let currentCode = '';
+
+    function pressKey(num) {
+      if (currentCode.length < 4) {
+        currentCode += num;
+        updateDots();
+        if (currentCode.length === 4) {
+          setTimeout(checkPasscode, 200);
+        }
+      }
+    }
+
+    function deleteKey() {
+      currentCode = currentCode.slice(0, -1);
+      updateDots();
+    }
+
+    function clearPasscode() {
+      currentCode = '';
+      updateDots();
+    }
+
+    function updateDots() {
+      for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById(`dot${i}`);
+        if (i <= currentCode.length) {
+          dot.classList.add('filled');
+        } else {
+          dot.classList.remove('filled');
+        }
+      }
+    }
+
+    function checkPasscode() {
+      if (currentCode === correctCode) {
+        showScreen('screen-question');
+      } else {
+        alert('Wrong passcode! Try 4699 ❤️');
+        clearPasscode();
+      }
+    }
+
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    function openGift(text) {
+      document.getElementById('modal-text').innerText = text;
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
